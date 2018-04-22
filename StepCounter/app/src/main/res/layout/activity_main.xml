@@ -8,13 +8,12 @@
     tools:context="com.example.android.karthik.stepcounter.MainActivity">
 
 
-
     <TextView
         android:id="@+id/tv_steps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        />
+        android:text="0" />
 
 
     <Button
@@ -30,5 +29,11 @@
         android:layout_height="wrap_content"
         android:text="Stop Count"
         />
+
+    <Button
+        android:id="@+id/Part2_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Part 2" />
 
 </LinearLayout>

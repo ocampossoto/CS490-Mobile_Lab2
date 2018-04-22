@@ -1,5 +1,7 @@
 package com.example.android.karthik.stepcounter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -10,7 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener, StepListener {
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
     private TextView textView;
     private StepDetector simpleStepDetector;
     private SensorManager sensorManager;
@@ -30,11 +32,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         // TODO: 1. Get an instance of the SensorManager and assign it to the variable 'sensorManager'
                     //Also get an instance of approriate sensor and assign it the variable 'sensor'
-        SensorManager sensorManager;
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
         //TODO: 2. Create an instance of StepDetector &assign it to variable 'simpleStepDetector' and register a listener on it
-
+        simpleStepDetector = new StepDetector();
+        simpleStepDetector.registerListener(new StepListener() {
+            @Override
+            public void step(long timeNs) {
+                TextView TvSteps = (TextView) findViewById(R.id.tv_steps);
+                numSteps++;
+                TvSteps.setText(TEXT_NUM_STEPS + numSteps);
+            }
+        });
         //TODO: 3. Get the views from the activity_main.xml and assign to variables 'TvSteps','BtnStart','BtnStop' variables suitably
-
+        TvSteps = findViewById(R.id.tv_steps);
+        BtnStart = findViewById(R.id.btn_start);
+        BtnStop = findViewById(R.id.btn_stop);
 
 
 
@@ -60,6 +75,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
+        Button image_stuff = findViewById(R.id.Part2_btn);
+
+        image_stuff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Part2.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
@@ -78,11 +102,5 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    @Override
-    public void step(long timeNs) {
-//        TextView TvSteps = (TextView) findViewById(R.id.tv_steps);
-        numSteps++;
-        TvSteps.setText(TEXT_NUM_STEPS + numSteps);
-    }
 
 }
