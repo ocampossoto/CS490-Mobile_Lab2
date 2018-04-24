@@ -16,10 +16,13 @@
 package com.google.android.gms.samples.vision.face.photo;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -46,6 +49,9 @@ public class PhotoViewerActivity extends Activity {
     private static final String TAG = "PhotoViewerActivity";
     InputStream The_Stream = null;
     int TAKE_PHOTO_CODE =0;
+    int PICTURE_RESULT = 0;
+    ContentValues values;
+    Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,7 @@ public class PhotoViewerActivity extends Activity {
              public void onClick(View view) {
                  Intent  cameraIntent  = new  Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                  startActivityForResult(cameraIntent,  TAKE_PHOTO_CODE);
+
              }
          });
 
@@ -69,7 +76,8 @@ public class PhotoViewerActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,  resultCode,  data);
         if (requestCode  == TAKE_PHOTO_CODE  && resultCode  == RESULT_OK)  {
-            Bitmap  photo = (Bitmap)  data.getExtras().get("data");
+            Bitmap photo;
+            photo = (Bitmap) data.getExtras().get("data");
             draw_picture(null, photo);
         }
 
@@ -83,6 +91,7 @@ public class PhotoViewerActivity extends Activity {
 
     public void draw_picture(InputStream stream, Bitmap data){
         Bitmap bitmap;
+
         if(stream!=null) {
             bitmap = BitmapFactory.decodeStream(stream);
         }
