@@ -75,15 +75,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        Button image_stuff = findViewById(R.id.Part2_btn);
-
-        image_stuff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Part2.class);
-                startActivity(intent);
-            }
-        });
 
 
     }

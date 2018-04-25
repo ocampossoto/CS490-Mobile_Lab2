@@ -143,9 +143,12 @@ public final class FaceTrackerActivity extends AppCompatActivity {
         }
 
         mCameraSource = new CameraSource.Builder(context, detector)
-                .setRequestedPreviewSize(1080, 720)
-                .setFacing(CameraSource.CAMERA_FACING_BACK)
-                .setRequestedFps(60.0f)
+                //since I don't need these I removed them so it's set to the default.
+
+               // .setRequestedPreviewSize(1080, 720)
+                //.setFacing(CameraSource.CAMERA_FACING_BACK)
+                //.setRequestedFps(30.0f)
+                .setAutoFocusEnabled(true)
                 .build();
     }
 

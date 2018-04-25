@@ -15,6 +15,8 @@
  */
 package com.google.android.gms.samples.vision.face.facetracker;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -95,15 +97,17 @@ class FaceGraphic extends GraphicOverlay.Graphic {
             return;
         }
 
+
         // Draws a circle at the position of the detected face, with the face's track id below.
+        // Moved the location to a more organized position and a nicer view.
         float x = translateX(face.getPosition().x + face.getWidth() / 2);
         float y = translateY(face.getPosition().y + face.getHeight() / 2);
         canvas.drawCircle(x, y, FACE_POSITION_RADIUS, mFacePositionPaint);
         canvas.drawText("id: " + mFaceId, x + ID_X_OFFSET, y + ID_Y_OFFSET, mIdPaint);
-        canvas.drawText("happiness: " + String.format("%.2f", face.getIsSmilingProbability()), x - ID_X_OFFSET, y - ID_Y_OFFSET, mIdPaint);
-        canvas.drawText("right eye: " + String.format("%.2f", face.getIsRightEyeOpenProbability()), x + ID_X_OFFSET * 2, y + ID_Y_OFFSET * 2, mIdPaint);
-        canvas.drawText("left eye: " + String.format("%.2f", face.getIsLeftEyeOpenProbability()), x - ID_X_OFFSET*2, y - ID_Y_OFFSET*2, mIdPaint);
-
+        //this part was edited to make things show up more nicely.
+        canvas.drawText("happiness Prob.: " + String.format("%.2f", face.getIsSmilingProbability()*100)+"%", x - ID_X_OFFSET, y - ID_Y_OFFSET, mIdPaint);
+        canvas.drawText("right eye open Prob.: " + String.format("%.2f", face.getIsRightEyeOpenProbability()*100)+"%", x - (ID_X_OFFSET), y - (ID_Y_OFFSET *2), mIdPaint);
+        canvas.drawText("left eye open Prob.: " + String.format("%.2f", face.getIsLeftEyeOpenProbability()*100)+"%", x - (ID_X_OFFSET), y - ID_Y_OFFSET*3, mIdPaint);
         // Draws a bounding box around the face.
         float xOffset = scaleX(face.getWidth() / 2.0f);
         float yOffset = scaleY(face.getHeight() / 2.0f);
@@ -111,6 +115,13 @@ class FaceGraphic extends GraphicOverlay.Graphic {
         float top = y - yOffset;
         float right = x + xOffset;
         float bottom = y + yOffset;
-        canvas.drawRect(left, top, right, bottom, mBoxPaint);
+        canvas.drawRect(right, bottom, left, top, mBoxPaint);
+
+
+
+
+
+
+
     }
 }

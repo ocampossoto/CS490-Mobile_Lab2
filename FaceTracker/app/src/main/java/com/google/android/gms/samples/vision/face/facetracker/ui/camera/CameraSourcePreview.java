@@ -17,7 +17,9 @@ package com.google.android.gms.samples.vision.face.facetracker.ui.camera;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -124,8 +126,10 @@ public class CameraSourcePreview extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        int width = 320;
-        int height = 240;
+       // Modification to increase the screen size depending on the device.
+        int width = Resources.getSystem().getDisplayMetrics().widthPixels/2;
+        int height = Resources.getSystem().getDisplayMetrics().heightPixels/2;
+
         if (mCameraSource != null) {
             Size size = mCameraSource.getPreviewSize();
             if (size != null) {
@@ -134,12 +138,13 @@ public class CameraSourcePreview extends ViewGroup {
             }
         }
 
+        //This part caused issues with the full screen mode so it was removed
         // Swap width and height sizes when in portrait, since it will be rotated 90 degrees
-        if (isPortraitMode()) {
-            int tmp = width;
-            width = height;
-            height = tmp;
-        }
+//        if (isPortraitMode()) {
+////            int tmp = width;
+////            width = height;
+////            height = tmp;
+//        }
 
         final int layoutWidth = right - left;
         final int layoutHeight = bottom - top;
@@ -168,6 +173,7 @@ public class CameraSourcePreview extends ViewGroup {
     private boolean isPortraitMode() {
         int orientation = mContext.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //changed this to true so we don't flip the screen since it will be full screen anyways.
             return false;
         }
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
